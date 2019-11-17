@@ -19,7 +19,7 @@ CREATE TABLE recipes (
   PRIMARY KEY(id)
 );
 
-CREATE TABLE recipe_step (
+CREATE TABLE recipe_steps (
   step_number SMALLINT,
   step_description text,
   recipe_id MEDIUMINT REFERENCES recipes(id)
