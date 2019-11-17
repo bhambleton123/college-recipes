@@ -1,12 +1,19 @@
 const models = require('../models/users.js');
 
+//post
 const signin = (req, res) => {
   models.signin(req.body.name, req.body.password, (err, results) => {
     if(err){
-      res.status(401).send(err);
+      res.status(500).send(err);
     }
     else{
-      results ? res.send(results) : res.status(401).send(results);
+      if(results){
+        // res.cookie("username": req.body.name)
+        res.send(results);
+      }
+      else{
+        res.status(401).send(results);
+      }
     }
   })
 }

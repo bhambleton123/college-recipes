@@ -2,12 +2,16 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+
+//controllers
 const recipes = require('./controllers/recipes.js');
 const recipeSteps = require('./controllers/recipeSteps.js');
 const user = require('./controllers/users.js');
 
 app.use(express.static(__dirname + '/../public'));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 //endpoints for recipes
 app.get('/recipes', recipes.getRecipes);
