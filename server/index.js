@@ -14,9 +14,9 @@ app.use(bodyParser.json());
 
 //endpoints for recipes
 app.get('/recipes', recipes.getRecipes);
-app.post('/recipes/:user_id', recipes.postRecipe);
-app.put('/recipes/:user_id', recipes.updateRecipeByUserId);
-app.delete('/recipes/:id', recipes.deleteRecipeById);
+app.post('/recipes', utils.verifyToken, recipes.postRecipe);
+app.put('/recipes/', utils.verifyToken, recipes.updateRecipeByUserId);
+app.delete('/recipes/:id', utils.verifyToken, recipes.deleteRecipeById);
 
 //endpoints for recipe steps
 app.get('/recipes/:recipe_id/steps', recipeSteps.getStepsByRecipeId);

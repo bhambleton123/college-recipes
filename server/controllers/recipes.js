@@ -1,5 +1,7 @@
+require("dotenv").config();
 const models = require("../models/recipes.js");
-const utils = require('../utils.js');
+const utils = require("../utils.js");
+const jwt = require("jsonwebtoken");
 
 const getRecipes = (req, res) => {
   models.getRecipes((err, results) => {
@@ -12,7 +14,8 @@ const getRecipes = (req, res) => {
 };
 
 const postRecipe = (req, res) => {
-  models.postRecipe(req.params.user_id, req.body.title, (err, results) => {
+  const decoded = jwt.verify(req.token, process.env.TOKEN_SECRET);
+  models.postRecipe(decoded.user.id, req.body.title, (err, results) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -22,8 +25,9 @@ const postRecipe = (req, res) => {
 };
 
 const updateRecipeByUserId = (req, res) => {
+  const decoded = jwt.verify(req.token, process.env.TOKEN_SECRET);
   models.updateRecipeByUserId(
-    req.params.user_id,
+    decoded.user.id,
     req.body.title,
     (err, results) => {
       if (err) {
