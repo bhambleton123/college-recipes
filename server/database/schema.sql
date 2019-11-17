@@ -8,7 +8,6 @@ CREATE TABLE users (
   id int NOT NULL AUTO_INCREMENT,
   user_name text,
   password text,
-  salt text,
   PRIMARY KEY(id)
 );
 

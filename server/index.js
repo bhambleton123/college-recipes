@@ -4,6 +4,7 @@ const port = 3000;
 const bodyParser = require('body-parser');
 const recipes = require('./controllers/recipes.js');
 const recipeSteps = require('./controllers/recipeSteps.js');
+const user = require('./controllers/users.js');
 
 app.use(express.static(__dirname + '/../public'));
 app.use(bodyParser.json());
@@ -19,5 +20,9 @@ app.get('/recipes/:recipe_id/steps', recipeSteps.getStepsByRecipeId);
 app.post('/recipes/:recipe_id/step/:step_number', recipeSteps.insertStepByRecipeId);
 app.put('/recipes/:recipe_id/step/:step_number', recipeSteps.updateRecipeStepById);
 app.delete('/recipes/:recipe_id/step/:step_number', recipeSteps.deleteRecipeStepById);
+
+//endpoints for user
+app.post('/signup', user.signup);
+app.post('/signin', user.signin);
 
 app.listen(port, () => console.log(`Server listening on ${port}`));
