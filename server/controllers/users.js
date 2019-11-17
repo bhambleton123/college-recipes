@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const models = require('../models/users.js');
 
 //post
@@ -8,8 +9,9 @@ const signin = (req, res) => {
     }
     else{
       if(results){
-        // res.cookie("username": req.body.name)
-        res.send(results);
+        const user = {name: req.body.name}
+        res.cookie("userData", user);
+        res.send([results, req.cookies]);
       }
       else{
         res.status(401).send(results);
