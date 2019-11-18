@@ -10,3 +10,11 @@ input {
 button {
   width: 200px;
 }
+
+.recipes {
+  margin: 0 auto;
+  width:500px;
+  padding-top:20px;
+  padding-bottom: 20px;
+  background: red;
+}

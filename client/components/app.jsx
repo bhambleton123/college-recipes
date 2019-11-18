@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Authform from './authform.jsx';
 import axios from 'axios';
 
+import RecipeHome from './recipehome.jsx';
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -60,6 +62,9 @@ class App extends Component {
         {this.state.isLoggedIn ? this.state.currentUser + " " : ''}
         {!this.state.isLoggedIn ? <button onClick={this.toggle}>Sign-in</button> : logOut}
         {this.state.isPushed ? <Authform/> : ''}
+        <div className="recipes">
+          <RecipeHome/>
+        </div>
       </div>
     )
   }
