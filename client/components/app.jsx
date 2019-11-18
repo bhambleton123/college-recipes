@@ -14,6 +14,7 @@ class App extends Component {
     }
 
     this.toggle = this.toggle.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount(){
@@ -46,10 +47,18 @@ class App extends Component {
     })
   }
 
+  logout() {
+    window.localStorage.clear();
+
+    window.location.reload();
+  }
+
   render(){
+    const logOut = <button onClick={this.logout}>Log out</button>;
     return (
       <div>
-        {!this.state.isLoggedIn ? <button onClick={this.toggle}>Sign-in</button> : this.state.currentUser}
+        {this.state.isLoggedIn ? this.state.currentUser + " " : ''}
+        {!this.state.isLoggedIn ? <button onClick={this.toggle}>Sign-in</button> : logOut}
         {this.state.isPushed ? <Authform/> : ''}
       </div>
     )
