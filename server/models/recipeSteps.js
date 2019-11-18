@@ -19,7 +19,7 @@ const insertStepByRecipeId = (recipeId, stepNumber, stepDescription, callback) =
         callback(err);
       }
       else{
-        callback(null, err);
+        callback(null, results);
       }
     })
 }

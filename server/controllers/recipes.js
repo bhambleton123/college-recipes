@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({path: __dirname + '/../../.env'});
 const models = require("../models/recipes.js");
 const utils = require("../utils.js");
 const jwt = require("jsonwebtoken");
