@@ -8,6 +8,8 @@ class RecipeHome extends Component {
     this.state = {
       recipes: []
     };
+
+    this.getRecipeSteps = this.getRecipeSteps.bind(this);
   }
 
   componentDidMount() {
@@ -21,13 +23,18 @@ class RecipeHome extends Component {
       .catch(err => console.error(err));
   }
 
+  getRecipeSteps() {
+
+  }
+
   render() {
     return (
-      <div className="recipes">
+      <div className="container ">
         {this.state.recipes.map(recipe => (
-          <div>
-            <h5>{recipe.user_name}</h5>
-            <h3>{recipe.title}</h3>
+          <div className="row  text-light">
+            <h5>{recipe.title + ' '} </h5>
+            <p className="ml-2 mr-2"> by </p>
+             <h5>{' ' + recipe.user_name}</h5>
           </div>
         ))}
       </div>

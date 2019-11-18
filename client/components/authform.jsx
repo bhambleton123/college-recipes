@@ -79,9 +79,9 @@ class Authform extends Component {
             onChange={this.handleChange}
             className="form-control w-25"
           />
-          <button className="btn btn-primary" onClick={this.handleSubmit}>submit</button>
+          <button className="btn btn-primary mt-2" onClick={this.handleSubmit}>submit</button>
         </div>
-        <button className="btn btn-secondary" onClick={this.changeType}>
+        <button className="btn btn-secondary mt-2" onClick={this.changeType}>
           {this.state.type === "signin" ? "Sign Up" : "Sign In"}
         </button>
       </div>

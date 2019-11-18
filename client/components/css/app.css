@@ -1,0 +1,45 @@
+body {
+  background-color: #464646;
+  margin: 0;
+  padding: 0;
+}
+
+p, h3, h4, h5 {
+  font-family: Impact, fantasy;
+}
+
+.modalShow {
+  position: fixed;
+  padding-top: 100px;
+  left: 0;
+  right:0;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  z-index: 9999;
+}
+
+.modalNone {
+  display: none;
+}
+
+.modalContainer {
+  display: block;
+  position: absolute;
+  top: 10px;
+  justify-content: center;
+}
+
+.modalContent {
+  font-family: "fantasy", cursive, sans-serif;
+  background-color: rgb(56, 109, 96);
+  margin: 100px 500px;
+  padding: 20px;
+  width: 398px;
+  overflow: hidden;
+  min-height: 290px;
+  max-height: 290px;
+  max-width: 398px;
+}

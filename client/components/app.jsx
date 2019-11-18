@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Authform from "./authform.jsx";
 import axios from "axios";
-
 import RecipeHome from "./recipehome.jsx";
+import SignIn from './signinmodal.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -58,19 +58,32 @@ class App extends Component {
   }
 
   render() {
-    const logOut = <button className="btn btn-primary" onClick={this.logout}>Log out</button>;
+    const logOut = (
+      <button className="btn btn-primary ml-2" onClick={this.logout}>
+        Log out
+      </button>
+    );
     return (
-      <div className="container w-100">
-        {this.state.isLoggedIn ? this.state.currentUser + " " : ""}
-        {!this.state.isLoggedIn ? (
-          <button className="btn btn-primary" onClick={this.toggle}>Sign-in</button>
-        ) : (
-          logOut
-        )}
+      <div className="bg-gradient-dark mt-3 ml-3 w-100">
+        <div className="row">
+          {this.state.isLoggedIn ? (
+            <p className="text-light ml-2"> Logged in as: {this.state.currentUser}</p>
+          ) : (
+            ""
+          )}
+          {!this.state.isLoggedIn ? (
+            <button className="btn btn-primary ml-3 mb-3" onClick={this.toggle}>
+              Sign-in
+            </button>
+          ) : (
+            logOut
+          )}
+        </div>
         {this.state.isPushed ? <Authform /> : ""}
         <div className="recipes">
           <RecipeHome />
         </div>
+        {this.state.isPushed ? <SignIn toggle={this.toggle}  isPushed={this.state.isPushed}/> : ''}
       </div>
     );
   }
