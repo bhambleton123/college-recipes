@@ -1,11 +1,13 @@
 const db = require('../database/index.js');
 
 const getRecipes = (callback) => {
-  db.connection.query('SELECT * FROM recipes ORDER BY id DESC LIMIT 12', (err, results) => {
+  const queryString = 'SELECT * FROM recipes ORDER BY recipes.id DESC LIMIT 12';
+  db.connection.query(queryString, (err, results) => {
     if(err){
       callback(err);
     }
     else{
+
       callback(null, results);
     }
   })
