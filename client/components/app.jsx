@@ -41,7 +41,6 @@ class App extends Component {
   }
 
   toggle() {
-    console.log(this.state.isLoggedIn);
     this.setState({
       isPushed: !this.state.isPushed
     })

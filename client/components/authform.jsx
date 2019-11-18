@@ -18,12 +18,14 @@ class Authform extends Component {
   }
 
   handleSubmit(){
-    axios.post(`/${this.state.type}`, {name: this.state.name, password: this.state.password})
-      .then(response => typeof response.data === 'string' ? window.localStorage.setItem("Authtoken", "Bearer " + response.data) : console.log(response.data))
-      .catch(err => console.log(err))
-      .finally(() => {
-        window.location.reload();
-      })
+    if(this.state.name !== '' && this.state.password !== ''){
+      axios.post(`/${this.state.type}`, {name: this.state.name, password: this.state.password})
+        .then(response => typeof response.data === 'string' ? window.localStorage.setItem("Authtoken", "Bearer " + response.data) : console.log(response.data))
+        .catch(err => console.log(err))
+        .finally(() => {
+          window.location.reload();
+        })
+    }
   }
 
   handleChange(event){
