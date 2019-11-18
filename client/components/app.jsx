@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Authform from "./authform.jsx";
 import axios from "axios";
 import RecipeHome from "./recipehome.jsx";
 import SignIn from './signinmodal.jsx';
@@ -79,11 +78,10 @@ class App extends Component {
             logOut
           )}
         </div>
-        {this.state.isPushed ? <Authform /> : ""}
+        {this.state.isPushed ? <SignIn toggle={this.toggle}/> : ''}
         <div className="recipes">
           <RecipeHome />
         </div>
-        {this.state.isPushed ? <SignIn toggle={this.toggle}  isPushed={this.state.isPushed}/> : ''}
       </div>
     );
   }

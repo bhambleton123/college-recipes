@@ -28,6 +28,7 @@ p, h3, h4, h5 {
 .modalContainer {
   display: block;
   position: absolute;
+  border-radius:5%;
   top: 10px;
   justify-content: center;
 }
@@ -42,4 +43,8 @@ p, h3, h4, h5 {
   min-height: 290px;
   max-height: 290px;
   max-width: 398px;
+}
+
+.close-modal {
+  margin-left: 290px;
 }
