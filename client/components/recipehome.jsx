@@ -12,7 +12,7 @@ class RecipeHome extends Component {
 
   componentDidMount() {
     axios
-      .get("/recipes")
+      .get('/recipes')
       .then(res => {
         this.setState({
           recipes: res.data
@@ -25,7 +25,10 @@ class RecipeHome extends Component {
     return (
       <div className="recipes">
         {this.state.recipes.map(recipe => (
-          <h3>{recipe.title}</h3>
+          <div>
+            <h5>{recipe.user_name}</h5>
+            <h3>{recipe.title}</h3>
+          </div>
         ))}
       </div>
     );
