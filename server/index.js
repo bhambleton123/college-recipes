@@ -27,5 +27,6 @@ app.delete('/recipes/:recipe_id/step/:step_number', utils.verifyToken, recipeSte
 //endpoints for user
 app.post('/signup', user.signup);
 app.post('/signin', user.signin);
+app.get('/currentuser', utils.verifyToken, user.currentUser);
 
 app.listen(port, () => console.log(`Server listening on ${port}`));

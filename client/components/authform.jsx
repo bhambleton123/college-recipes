@@ -19,7 +19,7 @@ class Authform extends Component {
 
   handleSubmit(){
     axios.post(`/${this.state.type}`, {name: this.state.name, password: this.state.password})
-      .then(response => console.log(response))
+      .then(response => window.localStorage.setItem("Authtoken", "Bearer " + response.data))
       .catch(err => console.log(err));
   }
 
@@ -47,11 +47,11 @@ class Authform extends Component {
   render(){
     return (
       <div>
-        <form className="column-container" onSubmit={this.handleSubmit}>
+        <div className="column-container">
           <input name="name" placeholder="Username" type="text" value={this.state.name} onChange={this.handleChange}/>
           <input name="password" placeholder="Password" type="password" value={this.state.password} onChange={this.handleChange}/>
-          <input type="submit" value="Submit"/>
-        </form>
+          <button onClick={this.handleSubmit}>submit</button>
+        </div>
         <button onClick={this.changeType}>{this.state.type === 'signin' ? 'Sign Up' : 'Sign In'}</button>
       </div>
     )

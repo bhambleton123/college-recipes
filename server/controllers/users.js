@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({path: __dirname + '/../../.env'});
 const jwt = require("jsonwebtoken");
 const models = require("../models/users.js");
 
@@ -31,7 +31,19 @@ const signup = (req, res) => {
   });
 };
 
+const currentUser = (req, res) => {
+  const decoded = jwt.verify(req.token, process.env.TOKEN_SECRET);
+
+  if(!!decoded){
+    res.send(decoded.user);
+  }
+  else{
+    res.sendStatus(403)
+  }
+}
+
 module.exports = {
   signin,
   signup,
+  currentUser,
 };
