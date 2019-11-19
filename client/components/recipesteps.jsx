@@ -1,19 +1,37 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import PostStepForm from "./poststepform.jsx";
+
 class RecipeSteps extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       canEdit: false,
-      steps: []
+      steps: [],
+      toggleForm: false,
+      description: ""
     };
 
     this.edit = this.edit.bind(this);
     this.submitEdit = this.submitEdit.bind(this);
     this.submitDelete = this.submitDelete.bind(this);
     this.submitDeleteLastStep = this.submitDeleteLastStep.bind(this);
+    this.toggleForm = this.toggleForm.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.submitStep = this.submitStep.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState(
+      {
+        steps: this.props.steps
+      },
+      () => {
+        console.log(this.state.steps);
+      }
+    );
   }
 
   edit() {
@@ -21,6 +39,16 @@ class RecipeSteps extends Component {
       canEdit: !this.state.canEdit,
       steps: this.props.steps
     });
+  }
+
+  submitStep(description) {
+    const nextStep = this.props.steps.length + 1;
+    axios.post(`/recipes/${this.props.recipeId}/step/${nextStep}`, {
+      description: description
+    })
+    .then(res => console.log(res))
+    .catch(err => console.error(err))
+    .finally(console.log(nextStep, this.props.recipeId));
   }
 
   submitEdit() {
@@ -60,7 +88,8 @@ class RecipeSteps extends Component {
   submitDeleteLastStep() {
     const amountSteps = this.props.steps.length;
 
-    axios.delete(`/recipes/${this.props.recipeId}/step/${amountSteps}`)
+    axios
+      .delete(`/recipes/${this.props.recipeId}/step/${amountSteps}`)
       .then(results => {
         console.log(results);
       })
@@ -73,10 +102,25 @@ class RecipeSteps extends Component {
 
         this.setState({
           steps: copySteps
-        })
-      })
+        });
+      });
+  }
+
+  handleChange(event) {
+    const name = event.target.name;
+    const target = event.target.value;
+    this.setState({
+      [name]: target
+    });
+
+    console.log(this.state.description);
   }
   // console.log(document.getElementsByClassName("recipe_step")[0].innerHTML);
+  toggleForm() {
+    this.setState({
+      toggle: !this.state.toggle
+    });
+  }
 
   render() {
     return (
@@ -93,10 +137,14 @@ class RecipeSteps extends Component {
             ) : (
               ""
             )}
-            <p>Created by {this.props.currentRecipeUser}</p>
+            <p>
+              {this.props.recipeTitle} Created by {this.props.currentRecipeUser}
+            </p>
             {this.props.steps.map(step => (
               <div>
-                <p>{step.step_number + " "}</p>
+                <p>
+                  <u>{"Step: " + step.step_number + " "}</u>
+                </p>
                 <p
                   className="recipe_step"
                   contentEditable={this.state.canEdit.toString()}
@@ -107,12 +155,16 @@ class RecipeSteps extends Component {
             ))}
             {this.props.currentUser === this.props.currentRecipeUser ? (
               <div>
-                <button
-                  onClick={this.submitEdit}
-                  className="btn btn-secondary mt-2"
-                >
-                  Submit changes
-                </button>
+                {this.state.canEdit ? (
+                  <button
+                    onClick={this.submitEdit}
+                    className="btn btn-secondary mt-2"
+                  >
+                    Submit changes
+                  </button>
+                ) : (
+                  ""
+                )}
                 <button
                   onClick={this.submitDelete}
                   className="btn btn-secondary mt-2 ml-2"
@@ -120,11 +172,26 @@ class RecipeSteps extends Component {
                   Delete Recipe
                 </button>
                 <button
-                onClick={this.submitDeleteLastStep}
-                className="btn btn-secondary mt-2 ml-2"
+                  onClick={this.submitDeleteLastStep}
+                  className="btn btn-secondary mt-2 ml-2"
                 >
                   Delete Last Step
                 </button>
+                <button
+                  onClick={this.toggleForm}
+                  className="btn btn-secondary mt-2 ml-2"
+                >
+                  Add Step
+                </button>
+                {this.state.toggle ? (
+                  <PostStepForm
+                    handleChange={this.handleChange}
+                    description={this.state.description}
+                    submitStep={this.submitStep}
+                  />
+                ) : (
+                  ""
+                )}
               </div>
             ) : (
               ""

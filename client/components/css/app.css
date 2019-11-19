@@ -4,10 +4,6 @@ body {
   padding: 0;
 }
 
-p, h3, h4, h5 {
-  font-family: Impact, fantasy;
-}
-
 .modalShow {
   position: fixed;
   padding-top: 100px;

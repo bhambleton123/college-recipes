@@ -12,7 +12,8 @@ class RecipeHome extends Component {
       currentRecipeSteps: [],
       toggleStepsModal: false,
       currentRecipeUser: "",
-      recipeId: null
+      recipeId: null,
+      recipeTitle: ''
     };
 
     this.getRecipeSteps = this.getRecipeSteps.bind(this);
@@ -36,14 +37,15 @@ class RecipeHome extends Component {
     });
   }
 
-  getRecipeSteps(id, currentUser) {
+  getRecipeSteps(id, recipeTitle, currentUser) {
     axios
       .get(`/recipes/${id}/steps`)
       .then(results => {
         this.setState({
           currentRecipeSteps: results.data,
           currentRecipeUser: currentUser,
-          recipeId: id
+          recipeId: id,
+          recipeTitle: recipeTitle
         });
       })
       .catch(err => {
@@ -61,7 +63,7 @@ class RecipeHome extends Component {
           <div className="row  text-light">
             <h5
               onClick={() => {
-                this.getRecipeSteps(recipe.id, recipe.user_name);
+                this.getRecipeSteps(recipe.id, recipe.title, recipe.user_name);
               }}
             >
               {recipe.title + " "}{" "}
@@ -72,6 +74,7 @@ class RecipeHome extends Component {
         ))}
         {this.state.currentRecipeSteps !== [] ? (
           <RecipeSteps
+            recipeTitle={this.state.recipeTitle}
             recipeId={this.state.recipeId}
             currentUser={this.props.currentUser}
             currentRecipeUser={this.state.currentRecipeUser}
