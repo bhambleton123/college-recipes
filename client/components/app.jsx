@@ -80,7 +80,7 @@ class App extends Component {
         </div>
         {this.state.isPushed ? <SignIn toggle={this.toggle}/> : ''}
         <div className="recipes">
-          <RecipeHome currentUser={this.state.currentUser} />
+          <RecipeHome isLoggedIn={this.state.isLoggedIn} currentUser={this.state.currentUser} />
         </div>
       </div>
     );

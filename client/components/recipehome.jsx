@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import RecipeSteps from "./recipesteps.jsx";
+import InsertRecipeModal from './insertrecipemodal.jsx';
 
 class RecipeHome extends Component {
   constructor(props) {
@@ -13,11 +14,13 @@ class RecipeHome extends Component {
       toggleStepsModal: false,
       currentRecipeUser: "",
       recipeId: null,
-      recipeTitle: ''
+      recipeTitle: "",
+      showInsert: false
     };
 
     this.getRecipeSteps = this.getRecipeSteps.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.toggleInsert = this.toggleInsert.bind(this);
   }
 
   componentDidMount() {
@@ -56,6 +59,12 @@ class RecipeHome extends Component {
       });
   }
 
+  toggleInsert() {
+    this.setState({
+      showInsert: !this.state.showInsert
+    })
+  }
+
   render() {
     return (
       <div className="container ">
@@ -85,6 +94,8 @@ class RecipeHome extends Component {
         ) : (
           ""
         )}
+        {this.props.isLoggedIn ? <button onClick={this.toggleInsert} className="btn btn-secondary">Create Recipe</button> : '' }
+        {this.state.showInsert && this.props.isLoggedIn ? <InsertRecipeModal toggleInsert={this.toggleInsert}/> : ''}
       </div>
     );
   }

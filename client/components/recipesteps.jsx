@@ -112,8 +112,6 @@ class RecipeSteps extends Component {
     this.setState({
       [name]: target
     });
-
-    console.log(this.state.description);
   }
   // console.log(document.getElementsByClassName("recipe_step")[0].innerHTML);
   toggleForm() {
