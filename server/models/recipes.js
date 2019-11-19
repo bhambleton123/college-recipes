@@ -43,13 +43,18 @@ const updateRecipeByUserId = (userId, title, callback) => {
 
 const deleteRecipeById = (id, callback) => {
   db.connection.query(
-    "DELETE FROM recipes WHERE id=?",
+    "DELETE FROM recipes WHERE id=?;",
     [id],
     (err, results) => {
       if (err) {
         callback(err);
       } else {
-        callback(null, results);
+        recipeSteps.deleteRecipeStepsById(id, (err, results) => {
+          if(err){
+            callback(err);
+          }
+          callback(null, results);
+        })
       }
     }
   );

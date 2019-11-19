@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from 'axios';
+import axios from "axios";
 
 class RecipeSteps extends Component {
   constructor(props) {
@@ -12,6 +12,8 @@ class RecipeSteps extends Component {
 
     this.edit = this.edit.bind(this);
     this.submitEdit = this.submitEdit.bind(this);
+    this.submitDelete = this.submitDelete.bind(this);
+    this.submitDeleteLastStep = this.submitDeleteLastStep.bind(this);
   }
 
   edit() {
@@ -22,21 +24,59 @@ class RecipeSteps extends Component {
   }
 
   submitEdit() {
-    for(let i=0; i<document.getElementsByClassName("recipe_step").length; i++){
-      axios.put(`/recipes/${this.props.recipeId}/step/${i+1}`, {description: document.getElementsByClassName("recipe_step")[i].innerHTML})
-      .then(results => {
-        console.log(results)
-      })
-      .catch(err => {
-        console.log(err);
-      })
+    for (
+      let i = 0;
+      i < document.getElementsByClassName("recipe_step").length;
+      i++
+    ) {
+      axios
+        .put(`/recipes/${this.props.recipeId}/step/${i + 1}`, {
+          description: document.getElementsByClassName("recipe_step")[i]
+            .innerHTML
+        })
+        .then(results => {
+          console.log(results);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 
   submitDelete() {
-    axios.delete(``)
+    axios
+      .delete(`/recipes/${this.props.recipeId}`)
+      .then(results => {
+        console.log(results);
+      })
+      .catch(err => {
+        console.error(err);
+      })
+      .finally(() => {
+        window.location.reload();
+      });
   }
-    // console.log(document.getElementsByClassName("recipe_step")[0].innerHTML);
+
+  submitDeleteLastStep() {
+    const amountSteps = this.props.steps.length;
+
+    axios.delete(`/recipes/${this.props.recipeId}/step/${amountSteps}`)
+      .then(results => {
+        console.log(results);
+      })
+      .catch(err => {
+        console.error(err);
+      })
+      .finally(() => {
+        let copySteps = this.state.steps;
+        copySteps.pop();
+
+        this.setState({
+          steps: copySteps
+        })
+      })
+  }
+  // console.log(document.getElementsByClassName("recipe_step")[0].innerHTML);
 
   render() {
     return (
@@ -66,12 +106,26 @@ class RecipeSteps extends Component {
               </div>
             ))}
             {this.props.currentUser === this.props.currentRecipeUser ? (
-              <button
-                onClick={this.submitEdit}
-                className="btn btn-secondary mt-2"
-              >
-                Submit changes
-              </button>
+              <div>
+                <button
+                  onClick={this.submitEdit}
+                  className="btn btn-secondary mt-2"
+                >
+                  Submit changes
+                </button>
+                <button
+                  onClick={this.submitDelete}
+                  className="btn btn-secondary mt-2 ml-2"
+                >
+                  Delete Recipe
+                </button>
+                <button
+                onClick={this.submitDeleteLastStep}
+                className="btn btn-secondary mt-2 ml-2"
+                >
+                  Delete Last Step
+                </button>
+              </div>
             ) : (
               ""
             )}

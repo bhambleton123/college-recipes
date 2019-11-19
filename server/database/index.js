@@ -8,6 +8,6 @@ const connection = mysql.createConnection({
   database: process.env.DB_DATABASE
 });
 
-connection.connect();
+connection.connect({multipleStatements: true});
 
 module.exports.connection = connection;
