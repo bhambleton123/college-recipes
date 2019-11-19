@@ -67,17 +67,18 @@ class App extends Component {
         <div className="row">
           {this.state.isLoggedIn ? (
             <p className="text-light ml-2"> Logged in as: {this.state.currentUser}</p>
-          ) : (
-            ""
-          )}
+            ) : (
+              ""
+              )}
           {!this.state.isLoggedIn ? (
             <button className="btn btn-primary ml-3 mb-3" onClick={this.toggle}>
               Sign-in
             </button>
           ) : (
             logOut
-          )}
+            )}
         </div>
+            <h5 id="main-title">COLLEGE RECIPES</h5>
         {this.state.isPushed ? <SignIn toggle={this.toggle}/> : ''}
         <div className="recipes">
           <RecipeHome isLoggedIn={this.state.isLoggedIn} currentUser={this.state.currentUser} />

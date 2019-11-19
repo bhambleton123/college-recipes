@@ -1,17 +1,19 @@
-require("dotenv").config({path: __dirname + '/../../.env'});
+require("dotenv").config({ path: __dirname + "/../../.env" });
 const jwt = require("jsonwebtoken");
 const models = require("../models/users.js");
 
 //post
 const signin = (req, res) => {
   models.signin(req.body.name, req.body.password, (err, results) => {
-    if (results.correct) {
+    if (results !== undefined && results.correct) {
       const user = { id: results.id, name: results.name };
       //sign json web token
       const token = jwt.sign({ user }, process.env.TOKEN_SECRET, {
         expiresIn: "1h"
       });
       res.send(token);
+    } else if (results === undefined) {
+      res.sendStatus(403);
     } else if (err) {
       res.status(500).send(results);
     } else {
@@ -34,16 +36,15 @@ const signup = (req, res) => {
 const currentUser = (req, res) => {
   const decoded = jwt.verify(req.token, process.env.TOKEN_SECRET);
 
-  if(!!decoded){
+  if (!!decoded) {
     res.send(decoded.user);
+  } else {
+    res.sendStatus(403);
   }
-  else{
-    res.sendStatus(403)
-  }
-}
+};
 
 module.exports = {
   signin,
   signup,
-  currentUser,
+  currentUser
 };

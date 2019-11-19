@@ -21,17 +21,27 @@ class RecipeSteps extends Component {
     this.toggleForm = this.toggleForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.submitStep = this.submitStep.bind(this);
+    this.getRecipeSteps = this.getRecipeSteps.bind(this);
   }
 
-  componentDidMount() {
-    this.setState(
-      {
-        steps: this.props.steps
-      },
-      () => {
+  componentWillMount() {
+    this.getRecipeSteps();
+  }
+
+  getRecipeSteps() {
+    axios
+      .get(`/recipes/${this.props.recipeId}/steps`)
+      .then(results => {
+        this.setState({
+          steps: results.data
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      })
+      .finally(() => {
         console.log(this.state.steps);
-      }
-    );
+      });
   }
 
   edit() {
@@ -42,13 +52,19 @@ class RecipeSteps extends Component {
   }
 
   submitStep(description) {
-    const nextStep = this.props.steps.length + 1;
-    axios.post(`/recipes/${this.props.recipeId}/step/${nextStep}`, {
-      description: description
-    })
-    .then(res => console.log(res))
-    .catch(err => console.error(err))
-    .finally(console.log(nextStep, this.props.recipeId));
+    const nextStep = this.state.steps.length + 1;
+    axios
+      .post(`/recipes/${this.props.recipeId}/step/${nextStep}`, {
+        description: description
+      })
+      .then(res => console.log(res))
+      .catch(err => console.error(err))
+      .finally(() => {
+        this.getRecipeSteps();
+        this.setState({
+          description: ''
+        })
+      });
   }
 
   submitEdit() {
@@ -86,7 +102,7 @@ class RecipeSteps extends Component {
   }
 
   submitDeleteLastStep() {
-    const amountSteps = this.props.steps.length;
+    const amountSteps = this.state.steps.length;
 
     axios
       .delete(`/recipes/${this.props.recipeId}/step/${amountSteps}`)
@@ -97,12 +113,7 @@ class RecipeSteps extends Component {
         console.error(err);
       })
       .finally(() => {
-        let copySteps = this.state.steps;
-        copySteps.pop();
-
-        this.setState({
-          steps: copySteps
-        });
+        this.getRecipeSteps();
       });
   }
 
@@ -122,10 +133,16 @@ class RecipeSteps extends Component {
 
   render() {
     return (
-      <div className={!this.props.isToggled ? "modalNone" : "modalShow"}>
+      <div className="modalShow">
         <div className="modalContainer">
           <div className="modalContent">
-            <button onClick={this.props.toggle} className="btn btn-secondary">
+            <button
+              onClick={() => {
+                this.props.closeModal();
+                this.props.toggle();
+              }}
+              className="btn btn-secondary"
+            >
               Close
             </button>
             {this.props.currentRecipeUser === this.props.currentUser ? (
@@ -138,7 +155,7 @@ class RecipeSteps extends Component {
             <p>
               {this.props.recipeTitle} Created by {this.props.currentRecipeUser}
             </p>
-            {this.props.steps.map(step => (
+            {this.state.steps.map(step => (
               <div>
                 <p>
                   <u>{"Step: " + step.step_number + " "}</u>

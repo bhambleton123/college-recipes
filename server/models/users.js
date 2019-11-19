@@ -3,15 +3,20 @@ const bcrypt = require('bcrypt');
 
 const signin = (name, password, callback) => {
   db.connection.query('SELECT id, password, user_name FROM users WHERE user_name=?', [name], (err, results) => {
-    bcrypt.compare(password, results[0].password, (error, response) => {
-      if(error){
-        callback(error);
+      if(err || results.length === 0){
+        callback(err);
       }
       else{
-        results = {id: results[0].id, correct: response, name: results[0].user_name};
-        callback(null, results);
-      }
-    })
+        bcrypt.compare(password, results[0].password, (error, response) => {
+          if(error){
+            callback(error);
+          }
+          else{
+            results = {id: results[0].id, correct: response, name: results[0].user_name};
+            callback(null, results);
+          }
+        })
+    }
   })
 }
 
