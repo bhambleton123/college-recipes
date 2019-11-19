@@ -48,9 +48,21 @@ const deleteRecipeStepById = (recipeId, stepNumber, callback) => {
   })
 }
 
+const deleteRecipeStepsById = (recipeId, callback) => {
+  db.connection.query('DELETE FROM recipe_steps WHERE recipe_id=?;', [recipeId], (err, results) => {
+    if(err){
+      callback(err);
+    }
+    else{
+      callback(null, err);
+    }
+  })
+}
+
 module.exports = {
   getStepsByRecipeId,
   insertStepByRecipeId,
   updateRecipeStepById,
   deleteRecipeStepById,
+  deleteRecipeStepsById,
 }
