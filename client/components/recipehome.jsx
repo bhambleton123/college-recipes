@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 import RecipeSteps from "./recipesteps.jsx";
-import InsertRecipeModal from './insertrecipemodal.jsx';
+import InsertRecipeModal from "./insertrecipemodal.jsx";
 
 class RecipeHome extends Component {
   constructor(props) {
@@ -21,6 +21,7 @@ class RecipeHome extends Component {
     this.getRecipeSteps = this.getRecipeSteps.bind(this);
     this.toggle = this.toggle.bind(this);
     this.toggleInsert = this.toggleInsert.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentDidMount() {
@@ -62,6 +63,12 @@ class RecipeHome extends Component {
   toggleInsert() {
     this.setState({
       showInsert: !this.state.showInsert
+    });
+  }
+
+  closeModal() {
+    this.setState({
+      currentRecipeSteps: []
     })
   }
 
@@ -81,7 +88,7 @@ class RecipeHome extends Component {
             <h5>{" " + recipe.user_name}</h5>
           </div>
         ))}
-        {this.state.currentRecipeSteps !== [] ? (
+        {this.state.toggleStepsModal ? (
           <RecipeSteps
             recipeTitle={this.state.recipeTitle}
             recipeId={this.state.recipeId}
@@ -90,12 +97,23 @@ class RecipeHome extends Component {
             isToggled={this.state.toggleStepsModal}
             toggle={this.toggle}
             steps={this.state.currentRecipeSteps}
+            closeModal={this.closeModal}
           />
         ) : (
           ""
         )}
-        {this.props.isLoggedIn ? <button onClick={this.toggleInsert} className="btn btn-secondary">Create Recipe</button> : '' }
-        {this.state.showInsert && this.props.isLoggedIn ? <InsertRecipeModal toggleInsert={this.toggleInsert}/> : ''}
+        {this.props.isLoggedIn ? (
+          <button onClick={this.toggleInsert} className="btn btn-secondary">
+            Create Recipe
+          </button>
+        ) : (
+          ""
+        )}
+        {this.state.showInsert && this.props.isLoggedIn ? (
+          <InsertRecipeModal toggleInsert={this.toggleInsert} />
+        ) : (
+          ""
+        )}
       </div>
     );
   }
