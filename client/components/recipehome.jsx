@@ -69,12 +69,19 @@ class RecipeHome extends Component {
   closeModal() {
     this.setState({
       currentRecipeSteps: []
-    })
+    });
   }
 
   render() {
     return (
       <div className="container ">
+        {this.props.isLoggedIn ? (
+          <button onClick={this.toggleInsert} className="btn btn-secondary mb-3">
+            Create Recipe
+          </button>
+        ) : (
+          ""
+        )}
         {this.state.recipes.map(recipe => (
           <div className="row  text-light">
             <h5
@@ -99,13 +106,6 @@ class RecipeHome extends Component {
             steps={this.state.currentRecipeSteps}
             closeModal={this.closeModal}
           />
-        ) : (
-          ""
-        )}
-        {this.props.isLoggedIn ? (
-          <button onClick={this.toggleInsert} className="btn btn-secondary">
-            Create Recipe
-          </button>
         ) : (
           ""
         )}
