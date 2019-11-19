@@ -3,7 +3,7 @@ const recipeSteps = require("./recipeSteps.js");
 
 const getRecipes = callback => {
   const queryString =
-    "SELECT recipes.id, title, user_name FROM recipes INNER JOIN users ON users.id=recipes.user_id ORDER BY recipes.id DESC LIMIT 12";
+    "SELECT recipes.id, title, user_name FROM recipes INNER JOIN users ON users.id=recipes.user_id ORDER BY recipes.id DESC LIMIT 100";
   db.connection.query(queryString, (err, results) => {
     if (err) {
       callback(err);
