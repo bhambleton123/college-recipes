@@ -10,7 +10,9 @@ class RecipeHome extends Component {
     this.state = {
       recipes: [],
       currentRecipeSteps: [],
-      toggleStepsModal: false
+      toggleStepsModal: false,
+      currentRecipeUser: '',
+      recipeId: null
     };
 
     this.getRecipeSteps = this.getRecipeSteps.bind(this);
@@ -34,12 +36,13 @@ class RecipeHome extends Component {
     })
   }
 
-  getRecipeSteps(id) {
+  getRecipeSteps(id, currentUser) {
     axios.get(`/recipes/${id}/steps`)
       .then(results => {
-        console.log(results);
         this.setState({
-          currentRecipeSteps: results.data
+          currentRecipeSteps: results.data,
+          currentRecipeUser: currentUser,
+          recipeId: id
         })
       })
       .catch(err => {
@@ -55,12 +58,12 @@ class RecipeHome extends Component {
       <div className="container ">
         {this.state.recipes.map(recipe => (
           <div className="row  text-light">
-            <h5 onClick={() => {this.getRecipeSteps(recipe.id)}}>{recipe.title + ' '} </h5>
+            <h5 onClick={() => {this.getRecipeSteps(recipe.id, recipe.user_name)}}>{recipe.title + ' '} </h5>
             <p className="ml-2 mr-2"> by </p>
              <h5>{' ' + recipe.user_name}</h5>
           </div>
         ))}
-        {this.state.currentRecipeSteps !== [] ? <RecipeSteps isToggled={this.state.toggleStepsModal} toggle={this.toggle} steps={this.state.currentRecipeSteps}/> : ''}
+        {this.state.currentRecipeSteps !== [] ? <RecipeSteps recipeId={this.state.recipeId} currentUser={this.props.currentUser} currentRecipeUser={this.state.currentRecipeUser} isToggled={this.state.toggleStepsModal} toggle={this.toggle} steps={this.state.currentRecipeSteps}/> : ''}
       </div>
     );
   }
